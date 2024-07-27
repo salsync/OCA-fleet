@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Copyright 2020 - 2024, Marcel Savegnago - Escodoo https://www.escodoo.com.br
+<!-- Copyright 2020 - 2024, Marcel Savegnago - Escodoo 
+     https://www.escodoo.com.br
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-    <record id="fleet_vehicle_inspection_line_form_view" model="ir.ui.view">
+       <!-- Define the form view for fleet vehicle inspection line -->
+        <record id="fleet_vehicle_inspection_line_form_view" model="ir.ui.view">
         <field
             name="name"
         >fleet.vehicle.inspection.line.form (in fleet_vehicle_inspection)</field>
@@ -10,45 +12,40 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button
-                        name="action_item_success"
-                        states="draft"
-                        string="Approve"
-                        type="object"
-                        class="oe_highlight btn-success"
-                        groups="fleet.fleet_group_manager"
-                    />
-                    <button
-                        name="action_item_failure"
-                        states="draft"
-                        string="Refuse"
-                        type="object"
-                        class="oe_highlight btn-danger"
-                        groups="fleet.fleet_group_manager"
-                    />
+                     <!-- Approve button, visible only in 'draft' state -->
+                    <button name="action_item_success"
+                            string="Approve"
+                            type="object"
+                            class="oe_highlight btn-success"
+                            groups="fleet.fleet_group_manager"
+                            modifiers="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <!-- Refuse button, visible only in 'draft' state -->
+                    <button name="action_item_failure"
+                            string="Refuse"
+                            type="object"
+                            class="oe_highlight btn-danger"
+                            groups="fleet.fleet_group_manager"
+                            modifiers="{'invisible': [('state', '!=', 'draft')]}"/>
                 </header>
                 <sheet>
+                    <!-- Result field, hidden by default -->
                     <field name="result" invisible="1" />
-                    <div
-                        class="badge rounded-pill bg-primary float-end text-white"
-                        attrs="{'invisible': [('result', 'not in', ['todo'])]}"
-                    >Todo</div>
-                    <div
-                        class="badge rounded-pill bg-danger float-end text-white"
-                        attrs="{'invisible': [('result', 'not in', ['failure'])]}"
-                    >Failure</div>
-                    <div
-                        class="badge rounded-pill bg-success float-end text-white"
-                        attrs="{'invisible': [('result', 'not in', ['success'])]}"
-                    >Success</div>
+                    <!-- Status badges based on the 'result' field value -->
+                    <div class="badge rounded-pill bg-primary float-end text-white"
+                         modifiers="{'invisible': [('result', 'not in', ['todo'])]}">Todo</div>
+                    <div class="badge rounded-pill bg-danger float-end text-white"
+                         modifiers="{'invisible': [('result', 'not in', ['failure'])]}">Failure</div>
+                    <div class="badge rounded-pill bg-success float-end text-white"
+                         modifiers="{'invisible': [('result', 'not in', ['success'])]}">Success</div>
+                    <!-- Title with inspection item ID -->
                     <div class="oe_title">
-                        <h1>
-                            <field name="inspection_item_id" readonly="1" />
-                        </h1>
+                        <h1><field name="inspection_item_id" readonly="1" /></h1>
                     </div>
                     <group>
+                    <!-- Inspection item ID field -->
                         <field name="inspection_item_id" />
                     </group>
+                     <!-- Notebook with pages for instruction, result, and images -->
                     <notebook>
                         <page name="instruction" string="Instruction">
                             <field name="inspection_item_instruction" />
@@ -93,6 +90,7 @@
                                                                 /></small>
                                                         </h4>
                                                     </div>
+                                                        <!-- Image size indication -->
                                                     <!-- below 100 Kb: good -->
                                                     <t
                                                         t-if="record.image_1920.raw_value.length &lt; 100*1000"
@@ -141,6 +139,7 @@
                         </page>
                     </notebook>
                 </sheet>
+                 <!-- Chatter fields for followers, activities, and messages -->
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" />
                     <field name="activity_ids" widget="mail_activity" />
@@ -149,6 +148,7 @@
             </form>
         </field>
     </record>
+     <!-- Define the form view for fleet vehicle inspection line images -->
     <record id="fleet_vehicle_inspection_line_image_form_view" model="ir.ui.view">
         <field
             name="name"
@@ -175,6 +175,7 @@
             </form>
         </field>
     </record>
+     <!-- Define the search view for fleet vehicle inspection line -->
     <record id="fleet_vehicle_inspection_line_search_view" model="ir.ui.view">
         <field
             name="name"
@@ -187,6 +188,8 @@
             </search>
         </field>
     </record>
+
+    <!-- Define the tree view for fleet vehicle inspection line -->
     <record id="fleet_vehicle_inspection_line_tree_view" model="ir.ui.view">
         <field
             name="name"
@@ -215,6 +218,8 @@
             </tree>
         </field>
     </record>
+
+    <!-- Define the pivot view for fleet vehicle inspection line -->
     <record id="fleet_vehicle_inspection_line_pivot_view" model="ir.ui.view">
         <field
             name="name"
@@ -227,6 +232,8 @@
             </pivot>
         </field>
     </record>
+
+     <!-- Define the action window for fleet vehicle inspection line -->
     <record id="fleet_vehicle_inspection_line_act_window" model="ir.actions.act_window">
         <field name="name">Vehicle Inspection Line</field>
         <field name="res_model">fleet.vehicle.inspection.line</field>

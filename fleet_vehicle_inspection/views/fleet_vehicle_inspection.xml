@@ -2,6 +2,7 @@
 <!-- Copyright 2020 - 2024, Marcel Savegnago - Escodoo https://www.escodoo.com.br
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
+    <!-- Define the form view for fleet.vehicle.inspection -->
     <record id="fleet_vehicle_inspection_form_view" model="ir.ui.view">
         <field
             name="name"
@@ -10,45 +11,17 @@
         <field name="arch" type="xml">
             <form string="Vehicle Inspection">
                 <header>
-                    <button
-                        name="button_confirm"
-                        type="object"
-                        states="draft"
-                        string="Confirm Inspection"
-                        class="oe_highlight"
-                        id="bid_confirm"
-                        groups="fleet.fleet_group_manager"
-                    />
-                    <button
-                        name="button_draft"
-                        states="cancel"
-                        string="Set to Draft"
-                        type="object"
-                        groups="fleet.fleet_group_manager"
-                    />
-                    <button
-                        name="button_cancel"
-                        states="draft,confirmed"
-                        string="Cancel"
-                        type="object"
-                        groups="fleet.fleet_group_manager"
-                    />
-                    <field
-                        name="state"
-                        widget="statusbar"
-                        statusbar_visible="draft,confirmed,cancel"
-                    />
+                    <!-- Replace 'states' attribute with 'modifiers' for button visibility -->
+                <button name="button_confirm" type="object" modifiers="{'invisible': [('state', '!=', 'draft')]}" string="Confirm Inspection" class="oe_highlight" id="bid_confirm" groups="fleet.fleet_group_manager"/>
+                    <button name="button_draft" type="object" modifiers="{'invisible': [('state', '!=', 'cancel')]}" string="Set to Draft" groups="fleet.fleet_group_manager"/>
+                    <button name="button_cancel" type="object" modifiers="{'invisible': [('state', 'not in', ['draft', 'confirmed'])]}" string="Cancel" groups="fleet.fleet_group_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancel"/>
                 </header>
                 <sheet>
-                    <field name="result" invisible="1" />
-                    <div
-                        class="badge rounded-pill bg-danger float-end text-white"
-                        attrs="{'invisible': [('result', 'not in', ['failure'])]}"
-                    >Failure</div>
-                    <div
-                        class=" badge rounded-pill bg-success float-end text-white"
-                        attrs="{'invisible': [('result', 'not in', ['success'])]}"
-                    >Success</div>
+                    <field name="result" invisible="1"/>
+                    <!-- Replace 'attrs' attribute with 'modifiers' for field visibility -->
+                    <div class="badge rounded-pill bg-danger float-end text-white" modifiers="{'invisible': [('result', 'not in', ['failure'])]}">Failure</div>
+                    <div class="badge rounded-pill bg-success float-end text-white" modifiers="{'invisible': [('result', 'not in', ['success'])]}">Success</div>
                     <div class="oe_title">
                         <h1>
                             <field name="name" readonly="1" />
@@ -95,24 +68,10 @@
                                         decoration-success="result == 'success'"
                                         decoration-danger="result == 'failure'"
                                     />
-                                    <button
-                                        name="action_item_success"
-                                        states="draft"
-                                        type="object"
-                                        class="oe_highlight btn-success"
-                                        icon="fa-check-circle"
-                                        title="Success"
-                                        groups="fleet.fleet_group_manager"
-                                    />
-                                    <button
-                                        name="action_item_failure"
-                                        states="draft"
-                                        type="object"
-                                        class="oe_highlight btn-danger"
-                                        icon="fa-times-circle"
-                                        title="Failure"
-                                        groups="fleet.fleet_group_manager"
-                                    />
+                                  
+                                    <!-- Replace 'states' attribute with 'modifiers' for button visibility -->
+                                    <button name="action_item_success" type="object" modifiers="{'invisible': [('state', '!=', 'draft')]}" class="oe_highlight btn-success" icon="fa-check-circle" title="Success" groups="fleet.fleet_group_manager"/>
+                                    <button name="action_item_failure" type="object" modifiers="{'invisible': [('state', '!=', 'draft')]}" class="oe_highlight btn-danger" icon="fa-times-circle" title="Failure" groups="fleet.fleet_group_manager"/>
                                 </tree>
                                 <kanban class="o_kanban_mobile">
                                     <field name="inspection_item_id" />
@@ -211,6 +170,8 @@
             </form>
         </field>
     </record>
+
+        <!-- Define the search view for fleet.vehicle.inspection -->
     <record id="fleet_vehicle_inspection_search_view" model="ir.ui.view">
         <field
             name="name"
@@ -301,6 +262,8 @@
             </search>
         </field>
     </record>
+
+    <!-- Define the tree view for fleet.vehicle.inspection -->
     <record id="fleet_vehicle_inspection_tree_view" model="ir.ui.view">
         <field
             name="name"
@@ -330,6 +293,8 @@
             </tree>
         </field>
     </record>
+
+<!-- Define the kanban view for fleet.vehicle.inspection -->
     <record id="fleet_vehicle_inspection_kanban_view" model="ir.ui.view">
         <field
             name="name"
@@ -357,7 +322,7 @@
                                         <span>
                                             <field
                                                 name="name"
-                                                attrs="{'invisible': [('name', '=', False)]}"
+                                                modifiers="{'invisible': [('name', '=', False)]}"
                                             />
                                         </span>
                                     </strong>
@@ -405,6 +370,9 @@
             </kanban>
         </field>
     </record>
+
+
+<!-- Define the pivot view for fleet.vehicle.inspection -->
     <record id="fleet_vehicle_inspection_pivot_view" model="ir.ui.view">
         <field
             name="name"
@@ -418,6 +386,8 @@
             </pivot>
         </field>
     </record>
+
+    <!-- Define the calendar view for fleet.vehicle.inspection -->
     <record id="fleet_vehicle_inspection_calendar_view" model="ir.ui.view">
         <field
             name="name"
@@ -439,6 +409,8 @@
             </calendar>
         </field>
     </record>
+
+    <!-- Define the graph view for fleet.vehicle.inspection -->
     <record id="fleet_vehicle_inspection_graph_view" model="ir.ui.view">
         <field
             name="name"
@@ -450,6 +422,8 @@
             </graph>
         </field>
     </record>
+
+    <!-- Define the action for fleet.vehicle.inspection -->
     <record id="fleet_vehicle_inspection_act_window" model="ir.actions.act_window">
         <field name="name">Vehicle Inspection</field>
         <field name="res_model">fleet.vehicle.inspection</field>
@@ -457,6 +431,8 @@
         <field name="domain">[]</field>
         <field name="context">{}</field>
     </record>
+
+    <!-- Define the menu item for fleet.vehicle.inspection -->
     <menuitem
         id="fleet_vehicle_inspection_menu"
         name="Vehicles Inspections"
