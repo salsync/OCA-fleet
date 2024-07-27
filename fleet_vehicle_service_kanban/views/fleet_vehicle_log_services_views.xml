@@ -13,7 +13,7 @@
                     name="web_ribbon"
                     title="Archived"
                     bg_color="bg-danger"
-                    attrs="{'invisible': [('active', '=', True)]}"
+                    modifiers="{'invisible': [('active', '=', True)]}"
                 />
             </xpath>
             <field name="service_type_id" position="after">
