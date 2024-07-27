@@ -10,7 +10,7 @@
     "website": "https://github.com/OCA/fleet",
     "license": "AGPL-3",
     "version": "17.0.1.0.0",
-    "depends": ["fleet"],
+    "depends": ["fleet","hr_fleet"],
     "data": [
         "data/fleet_data.xml",
         "data/mail_data.xml",

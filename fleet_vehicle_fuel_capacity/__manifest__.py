@@ -19,4 +19,5 @@
     "data": [
         "views/fleet_vehicle.xml",
     ],
+    "installable": True,
 }
