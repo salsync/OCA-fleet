@@ -1,47 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <!-- Form view for Fuel Logs -->
     <record id='fleet_vehicle_log_fuel_view_form' model='ir.ui.view'>
         <field name="name">fleet.vehicle.log.fuel.form</field>
         <field name="model">fleet.vehicle.log.fuel</field>
         <field name="arch" type="xml">
             <form string="Fuel Logs">
+                <!-- Fields that are hidden in the form -->
                 <field name="active" invisible="1" />
                 <field name="currency_id" invisible="1" />
                 <header>
+                    <!-- Action buttons with states replaced by modifiers -->
                     <button
                         name="button_running"
                         type="object"
-                        states="todo"
                         string="Running"
                         class="oe_highlight"
+                        modifiers="{'invisible': [('state', '!=', 'todo')]}"
                     />
                     <button
                         name="button_done"
                         type="object"
-                        states="running"
                         string="Done"
                         class="oe_highlight"
+                        modifiers="{'invisible': [('state', '!=', 'running')]}"
                     />
                     <button
                         name="button_todo"
-                        states="cancelled"
-                        string="Set to Todo"
                         type="object"
+                        string="Set to Todo"
+                        modifiers="{'invisible': [('state', '!=', 'cancelled')]}"
                     />
                     <button
                         name="button_cancel"
-                        states="todo,running,done"
-                        string="Cancel"
                         type="object"
+                        string="Cancel"
+                        modifiers="{'invisible': [('state', 'in', ['done'])]}"
                     />
+                    <!-- Status bar for state field -->
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
+                    <!-- Archived ribbon with modifiers instead of attrs -->
                     <widget
                         name="web_ribbon"
                         title="Archived"
                         bg_color="bg-danger"
-                        attrs="{'invisible': [('active', '=', True)]}"
+                        modifiers="{'invisible': [('active', '=', True)]}"
                     />
                     <group col="2">
                         <group>
@@ -61,7 +66,7 @@
                             <div class="o_row">
                                 <field
                                     name="odometer"
-                                    attrs="{'readonly': [('odometer_id', '!=', False)]}"
+                                    modifiers="{'readonly': [('odometer_id', '!=', False)]}"
                                 />
                                 <field name="odometer_unit" />
                             </div>
@@ -76,6 +81,7 @@
                         />
                     </group>
                 </sheet>
+                <!-- Chatter for messages and activities -->
                 <div class="oe_chatter">
                     <field name="message_follower_ids" />
                     <field name="activity_ids" />
@@ -84,6 +90,8 @@
             </form>
         </field>
     </record>
+
+    <!-- Tree view for Fuel Logs -->
     <record id="fleet_vehicle_log_fuel_view_tree" model="ir.ui.view">
         <field name="name">fleet.vehicle.log.fuel.tree</field>
         <field name="model">fleet.vehicle.log.fuel</field>
@@ -101,6 +109,7 @@
                 <field name="notes" optional="show" />
                 <field name="amount" sum="Total" widget="monetary" />
                 <field name="currency_id" invisible="1" />
+                <!-- State field with badge decorations for different states -->
                 <field
                     name="state"
                     readonly="1"
@@ -112,6 +121,8 @@
             </tree>
         </field>
     </record>
+
+    <!-- Kanban view for Fuel Logs -->
     <record id='fleet_vehicle_log_fuel_view_kanban' model='ir.ui.view'>
         <field name="name">fleet.vehicle.log.fuel.kanban</field>
         <field name="model">fleet.vehicle.log.fuel</field>
@@ -155,6 +166,8 @@
             </kanban>
         </field>
     </record>
+
+    <!-- Graph view for Fuel Logs -->
     <record id="fleet_vehicle_log_fuel_view_graph" model="ir.ui.view">
        <field name="name">fleet.vehicle.log.fuel.graph</field>
        <field name="model">fleet.vehicle.log.fuel</field>
@@ -166,6 +179,8 @@
             </graph>
         </field>
     </record>
+
+    <!-- Search view for Fuel Logs -->
     <record id="fleet_vehicle_log_fuel_view_search" model="ir.ui.view">
         <field name="name">fleet.vehicle.log.fuel.search</field>
         <field name="model">fleet.vehicle.log.fuel</field>
@@ -175,6 +190,7 @@
                 <field name="liter" />
                 <field name="service_type_id" />
                 <separator />
+                <!-- Filter to show archived logs -->
                 <filter
                     string="Archived"
                     name="inactive"
@@ -183,6 +199,8 @@
             </search>
         </field>
     </record>
+
+    <!-- Action for opening the Fuel Logs view -->
     <record id='fleet_vehicle_log_fuel_action' model='ir.actions.act_window'>
         <field name="name">Fuel Logs</field>
         <field name="res_model">fleet.vehicle.log.fuel</field>
@@ -195,6 +213,8 @@
           </p>
         </field>
     </record>
+
+    <!-- Menu item for accessing Fuel Logs -->
     <menuitem
         action="fleet_vehicle_log_fuel_action"
         parent="fleet.fleet_vehicles"
